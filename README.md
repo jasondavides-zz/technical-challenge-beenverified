@@ -70,6 +70,5 @@ In the active environment
 ```
 To deactivate the environment
 ```bash
-    $ pip install flask flask-jsonpify flask-sqlalchemy flask-restful
-    $ $ python songsearchapi.py
+    $ deactivate
 ```
