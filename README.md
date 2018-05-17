@@ -46,6 +46,7 @@ This will return a result with the data in JSON format.
 Search by genre:  http://127.0.0.1:5000/genre=genre
 Search by song:   http://127.0.0.1:5000/song=name
 Search by artist: http://127.0.0.1:5000/artist=artist
+Search by minimum and maximum length: http://127.0.0.1:5000/song/minimum=value1&maximum=value2
 
 Note: The current port is the 5000 but if you have problems with it, you can change it in the API code to an unused port, please see last lines in API code.
 

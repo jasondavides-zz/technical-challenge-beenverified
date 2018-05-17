@@ -58,9 +58,26 @@ class SongsByArtist(Resource):
         return jsonify(result)
 
 
+class SongsByLength(Resource):
+    def get(self, minimum_length, maximum_length):
+        conn = db_connect.connect()
+        params = (minimum_length, maximum_length)
+        query = conn.execute(
+            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
+            FROM songs AS S
+            INNER JOIN genres AS G
+            ON S.genre = G.id
+            and S.duration between ? and ?;''', params)
+        result = {'data': [
+            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
+        return jsonify(result)
+
+
 api.add_resource(SongsByGenre, '/genre=<genre_name>')
 api.add_resource(SongsByName, '/song=<song_name>')
 api.add_resource(SongsByArtist, '/artist=<artist_name>')
+api.add_resource(
+    SongsByLength, '/song/minimum=<minimum_length>&maximum=<maximum_length>')
 
 
 if __name__ == '__main__':
