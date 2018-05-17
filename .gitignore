@@ -1,5 +1,5 @@
 venv/
 .DS_Store
-.pyc
+*.py[cod]
 .cache
 .pytest_cache
