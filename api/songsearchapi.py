@@ -18,7 +18,7 @@ class SongsByName(Resource):
         conn = db_connect.connect()
         params = (song_name)
         query = conn.execute(
-            '''SELECT S.title AS Song, S.artist, G.name AS [genre name], S.duration
+            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
             FROM songs AS S
             INNER JOIN genres AS G
             ON S.genre = G.id
