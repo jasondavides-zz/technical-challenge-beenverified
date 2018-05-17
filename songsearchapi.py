@@ -64,5 +64,6 @@ api.add_resource(SongsByArtist, '/artist=<artist_name>')
 
 
 if __name__ == '__main__':
-    # If the port 5000 is being used change this line for app.run(port='8000')
+    # If the port 5000 is being used change this line for
+    # app.run(port='another_port')
     app.run()

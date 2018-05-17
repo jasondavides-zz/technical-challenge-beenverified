@@ -47,7 +47,7 @@ Search by genre:  http://127.0.0.1:5000/genre=genre
 Search by song:   http://127.0.0.1:5000/song=name
 Search by artist: http://127.0.0.1:5000/artist=artist
 
-Note: The current port is the 5000 but if you have problems with it, you can change it to an unused port.
+Note: The current port is the 5000 but if you have problems with it, you can change it in the API code to an unused port, please see last lines in API code.
 
 # Deactivating Environment
 When you finish using the API, to deactivate the environment just execute
