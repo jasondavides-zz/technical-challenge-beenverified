@@ -3,9 +3,9 @@
 This API expose the songs information in JSON format using the database located
 in the folder db/"""
 from flask import Flask
-from flask_restful import Resource, Api
-from sqlalchemy import create_engine
 from flask import jsonify
+from flask_restful import Api, Resource
+from sqlalchemy import create_engine
 
 # Database connection in folder db/
 db_connect = create_engine('sqlite:///db/bvde.db')
@@ -97,6 +97,6 @@ api.add_resource(GenreInformation, '/genre/info')
 
 
 if __name__ == '__main__':
-    # If the port 5000 is being used change this line for
+    # If the port 5000 is being used change this line to something like
     # app.run(port='another_port')
     app.run(host='0.0.0.0', port=5000, debug=True)
