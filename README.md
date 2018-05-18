@@ -82,4 +82,4 @@ If you are in the same directory of this Readme, you can just run the file Execu
 A container allow us to keep separated the environment for the projects and share them with the developers or even with the clients if they want to have a copy of the project, Docker is opensource [Docker](https://www.docker.com/) . Here you have a Dockerfile to build your image and run the API.
 
 ### Thank You
-Thanks BeenVerified for the opportunity :simple_smile: and this challenge, I enjoyed a lot. :clap:  
+Thanks **BeenVerified** for the opportunity :smile: and this challenge, I enjoyed a lot. :clap:  
