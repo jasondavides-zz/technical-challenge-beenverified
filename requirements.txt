@@ -18,3 +18,5 @@ SQLAlchemy       1.2.7
 SQLite3.         3.19.3  
 Werkzeug         0.14.1 
 wheel            0.31.1 
+
+If you have problems, please check if you have this packages installed. Thanks
