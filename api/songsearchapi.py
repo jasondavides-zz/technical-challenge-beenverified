@@ -99,4 +99,4 @@ api.add_resource(GenreInformation, '/genre/info')
 if __name__ == '__main__':
     # If the port 5000 is being used change this line for
     # app.run(port='another_port')
-    app.run()
+    app.run(host='0.0.0.0', port=5000, debug=True)
