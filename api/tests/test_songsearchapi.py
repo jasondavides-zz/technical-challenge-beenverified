@@ -27,3 +27,28 @@ def test_songs_by_genre():
                           "genre name": "Rock", "song": "Mack the Knife"}]}
 
     assert(expected == result)
+
+
+def test_songs_by_artist():
+
+    with app.test_request_context():
+        songs = requests.get('http://127.0.0.1:5000/artist=424')
+
+    result = loads(songs.text)
+    expected = {"data": [{"song": "Gala", "artist": "424", "duration": 189,
+                         "genre name": "Indie Rock"}]}
+
+    assert(expected == result)
+
+
+def test_songs_by_length():
+
+    with app.test_request_context():
+        songs = requests.get(
+            'http://127.0.0.1:5000/song/minimum=200&maximum=300')
+
+    result = loads(songs.text)
+    expected = {"artist": "Bobby Darin", "duration": 245,
+                          "genre name": "Rock", "song": "Mack the Knife"}
+
+    assert(expected in result['data'])
