@@ -81,5 +81,17 @@ If you are in the same directory of this Readme, you can just run the file Execu
 ### Dockerfile
 A container allow us to keep separated the environment for the projects and share them with the developers or even with the clients if they want to have a copy of the project, Docker is opensource [Docker](https://www.docker.com/) . Here you have a Dockerfile to build your image and run the API.
 
+To use the Dockerfile, in the currect directory of the Dockerfile you can do:
+```bash
+    $ docker build -t "repository_name:tag" .
+```
+Change repository_name for other of your preference and put the tag you like.
+
+When the image is builded you can run it.
+```bash
+    $ docker run -d -p 5000:5000 container_id
+```
+Change container_id for the id of the builded image in the last step or use the image name.
+
 ### Thank You
 Thanks **BeenVerified** for the opportunity :smile: and this challenge, I enjoyed a lot. :clap:  
