@@ -52,3 +52,40 @@ def test_songs_by_length():
                           "genre name": "Rock", "song": "Mack the Knife"}
 
     assert(expected in result['data'])
+
+
+def test_get_genre_info():
+
+    with app.test_request_context():
+        songs = requests.get(
+            'http://127.0.0.1:5000/genre/info')
+
+    result = loads(songs.text)
+    expected = {"genre name": "Classic Rock", "number of songs": 2,
+                "total length": 407}
+
+    assert(expected in result['data'])
+
+
+def test_empty_data_response():
+
+    with app.test_request_context():
+        songs = requests.get(
+            'http://127.0.0.1:5000/song=Buddy Holly')
+
+    result = loads(songs.text)
+    expected = {"data": []}
+
+    assert(expected == result)
+
+
+def test_wrong_url():
+
+    with app.test_request_context():
+        songs = requests.get(
+            'http://127.0.0.1:5000/song+Rock')
+
+    result = songs.status_code
+    expected = 404
+
+    assert(expected == result)
