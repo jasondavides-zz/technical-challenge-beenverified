@@ -13,79 +13,64 @@ app = Flask(__name__)
 api = Api(app)
 
 
+# This query is used as a base to create the final sql statement for each
+# request, allowing us to get the different data as appropriate
+QUERY_SQL = '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
+        FROM songs AS S
+        INNER JOIN genres AS G
+        ON S.genre = G.id'''.replace('\n', '')
+
+
+def _auxiliar_sql_creator(field_to_compare, value_to_compare):
+    """Function to create the query and call the getter function for the
+    respective request"""
+    params = (value_to_compare)
+    query = \
+        QUERY_SQL + ''' and {field} = ?;'''.format(field=field_to_compare)
+    return _auxiliar_get_result(query, params)
+
+
+def _auxiliar_get_result(query, params=()):
+    """Receiving the query and the parameters allows to perform the request
+    and return the data as dictionary"""
+    conn = db_connect.connect()
+    query = conn.execute(query, params)
+    result = {'data': [
+        dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
+    return jsonify(result)
+
+
 class SongsByName(Resource):
     def get(self, song_name):
-        conn = db_connect.connect()
-        params = (song_name)
-        query = conn.execute(
-            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
-            FROM songs AS S
-            INNER JOIN genres AS G
-            ON S.genre = G.id
-            and S.title = ?;''', params)
-        result = {'data': [
-            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(result)
+        return _auxiliar_sql_creator('S.title', song_name)
 
 
 class SongsByGenre(Resource):
     def get(self, genre_name):
-        conn = db_connect.connect()
-        params = (genre_name)
-        query = conn.execute(
-            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
-            FROM songs AS S
-            INNER JOIN genres AS G
-            ON S.genre = G.id
-            and G.name = ?;''', params)
-        result = {'data': [
-            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(result)
+        return _auxiliar_sql_creator('G.name', genre_name)
 
 
 class SongsByArtist(Resource):
     def get(self, artist_name):
-        conn = db_connect.connect()
-        params = (artist_name)
-        query = conn.execute(
-            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
-            FROM songs AS S
-            INNER JOIN genres AS G
-            ON S.genre = G.id
-            and S.artist = ?;''', params)
-        result = {'data': [
-            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(result)
+        return _auxiliar_sql_creator('S.artist', artist_name)
 
 
 class SongsByLength(Resource):
     def get(self, minimum_length, maximum_length):
-        conn = db_connect.connect()
         params = (minimum_length, maximum_length)
-        query = conn.execute(
-            '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
-            FROM songs AS S
-            INNER JOIN genres AS G
-            ON S.genre = G.id
-            and S.duration between ? and ?;''', params)
-        result = {'data': [
-            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(result)
+        query = QUERY_SQL + ''' and S.duration between ? and ?;'''
+        return _auxiliar_get_result(query, params)
 
 
 class GenreInformation(Resource):
     def get(self):
-        conn = db_connect.connect()
-        query = conn.execute(
-            '''SELECT G.name AS [genre name], count(S.title) AS [number of songs],
+        query = '''SELECT G.name AS [genre name], count(S.title) AS [number of songs],
             sum(S.duration) AS [total length]
             FROM songs AS S
             INNER JOIN genres AS G
             ON S.genre = G.id
-            GROUP BY G.name;''')
-        result = {'data': [
-            dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(result)
+            GROUP BY G.name;'''
+        return _auxiliar_get_result(query)
 
 
 api.add_resource(SongsByGenre, '/genre=<genre_name>')
