@@ -32,7 +32,7 @@ def _auxiliar_sql_creator(field_to_compare, value_to_compare):
 
 def _auxiliar_get_result(query, params=()):
     """Receiving the query and the parameters allows to perform the request
-    and return the data as dictionary"""
+    and return the data as JSON data file"""
     conn = db_connect.connect()
     query = conn.execute(query, params)
     result = {'data': [
