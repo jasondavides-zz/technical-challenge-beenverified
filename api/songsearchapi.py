@@ -15,7 +15,7 @@ api = Api(app)
 
 # This query is used as a base to create the final sql statement for each
 # request, allowing us to get the different data as appropriate
-QUERY_SQL = '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
+_QUERY_SQL = '''SELECT S.title AS song, S.artist, G.name AS [genre name], S.duration
         FROM songs AS S
         INNER JOIN genres AS G
         ON S.genre = G.id'''.replace('\n', '')
@@ -26,7 +26,7 @@ def _auxiliar_sql_creator(field_to_compare, value_to_compare):
     respective request"""
     params = (value_to_compare)
     query = \
-        QUERY_SQL + ''' and {field} = ?;'''.format(field=field_to_compare)
+        _QUERY_SQL + ''' and {field} = ?;'''.format(field=field_to_compare)
     return _auxiliar_get_result(query, params)
 
 
@@ -58,7 +58,7 @@ class SongsByArtist(Resource):
 class SongsByLength(Resource):
     def get(self, minimum_length, maximum_length):
         params = (minimum_length, maximum_length)
-        query = QUERY_SQL + ''' and S.duration between ? and ?;'''
+        query = _QUERY_SQL + ''' and S.duration between ? and ?;'''
         return _auxiliar_get_result(query, params)
 
 
